@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authRouter } from "./auth/auth.route";
-import { todoRouter } from "./todo/todo.route";
+import { authRouter } from "./auth/auth.route.js";
+import { todoRouter } from "./todo/todo.route.js";
 
 
 // eng bosh router
