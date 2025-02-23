@@ -8,4 +8,4 @@ const todoScheme = new Schema({
 )
 
 
-export const TodoModel = model('todo', todoScheme, 'todo') //(name, scheme, collection name)
+export const TodoModel = model("todo", todoScheme, "todo") //(name, scheme, collection name)

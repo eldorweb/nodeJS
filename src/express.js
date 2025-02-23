@@ -16,7 +16,7 @@ app.listen(8080, () => {
 
 // istalgancha app yozilsa boladi
 
-app.use('/', router)
+
 app.use(cors({origin: ['https://example.ru'], credentials: true}))   //origin: '*' hammasiga ruxsat beradi
 app.use(express.json())  //postmandan jonatilayotgan json fayllarni qabul qilish uchun
 app.use(express.urlencoded({extended: true}))   //postmandagi form, fiyllarni jonatishga yoki qabul qilishga ruxsat beradi
@@ -27,7 +27,7 @@ app.get('/', (req, res)=>{
     res.json({success: true, msg: "OK!"})    //ekranga json faylda chiqarish uchun
 }) 
 
-
+app.use('/', router)
 app.listen(PORT, ()=>{
     console.log(`Server run ${PORT}.`);
 })
