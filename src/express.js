@@ -1,9 +1,9 @@
 
 import express from 'express'
-import { router } from './src/routes/index.js';
+import { router } from './routes/index.js';
 import cors from 'cors'
-import { PORT } from './src/utils/secrets.js';
-import { connectDB } from './src/config/database.config.js';
+import { PORT } from './utils/secrets.js';
+import { connectDB } from './config/database.config.js';
 
 const app = express();
 //databasega ulanish uchun
