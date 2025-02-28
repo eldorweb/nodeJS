@@ -4,6 +4,7 @@ import { router } from './routes/index.js';
 import cors from 'cors'
 import { PORT } from './utils/secrets.js';
 import { connectDB } from './config/database.config.js';
+import { errorMiddleware } from './middleware/error.middleware.js';
 
 const app = express();
 //databasega ulanish uchun
@@ -28,6 +29,10 @@ app.get('/', (req, res)=>{
 }) 
 
 app.use('/', router)
+app.use(errorMiddleware)   //agar problem bolsa chiqaradi
+
+
+
 app.listen(PORT, ()=>{
     console.log(`Server run ${PORT}.`);
 })
