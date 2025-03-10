@@ -2,6 +2,7 @@ import {Router}  from 'express'
 import { addTodo, deleteTodo, getAllTodo, getById, updateTodo } from '../../controller/todo/todo.controller.js';
 import { addTodoV, getAllV, getByIdV } from '../../validator/todo/todo.validator.js';
 import { validation } from '../../validator/validator.js';
+import { auth } from '../../middleware/auth.middleware.js';
 
 
 export const todoRouter = Router();
@@ -19,7 +20,7 @@ export const todoRouter = Router();
     // }
 todoRouter.get('/get',getAllV(),validation, getAllTodo)  //getAllTodo ni export qilamiz
 todoRouter.get('/get/:todoID',getByIdV(),validation, getById)   // / dan keyin istalgan id ga boshlangan amal qilsa boladi
-todoRouter.post('/add',addTodoV(),validation, addTodo)//middlewarega validation larni chawiramiz        validation va addTodoV() lar doimo birga bolishi kerak
-todoRouter.put('/update/:todoID', updateTodo)   //put butun boshli malumotlarni yangilaydi
+todoRouter.post('/add',auth,addTodoV(),validation, addTodo)//middlewarega validation larni chawiramiz        validation va addTodoV() lar doimo birga bolishi kerak
+todoRouter.put('/update/:todoID',auth, updateTodo)   //put butun boshli malumotlarni yangilaydi
 //todoRouter.patch('/update', AddTodo)   //patch qisqa malumotlarni yangilaydi, kop ishlatilmaydi
-todoRouter.delete('/delete/:todoID', deleteTodo)
+todoRouter.delete('/delete/:todoID',auth, deleteTodo) //auth tokenlar, va authentifikatsiya qilish, faqat login qlganlar uchun
