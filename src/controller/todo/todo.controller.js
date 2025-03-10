@@ -1,6 +1,9 @@
 import { asyncHandler } from "../../middleware/asyncHandler.middleware.js";
 import { TodoModel } from "../../model/todo/todo.model.js"
 import { HttpException } from "../../util(class)/http.exception.js";
+import { deleteFileFromS3, uploadFileS3 } from "../../utils/s3.js";
+import {v4} from 'uuid'
+import path from 'path'
 
 export const getAllTodo = asyncHandler(
     async (req, res)=>{
@@ -32,7 +35,14 @@ export const getById = asyncHandler(
 export const addTodo = asyncHandler(
     async (req, res)=>{
         const {title, desc} = req.body 
+        const image = req.file
+        const key = v4() + path.extname(image.originalname)  //oxiridagi formatini qirqib oladi
+
+    const link =  await uploadFileS3(key, image.buffer)
         
+        // console.log(req.file);   //rasm jonatilganda malumotlar consolega chiqadi.
+        
+        //buffer - fayllar 16 li sanoq sistemasida yozilgan bolad M) image - <Buffer ff d8 ff 00 10 4a ...../>
         const todo = await TodoModel.findOne({title})
         if(todo) {
             //return res.json({success: false, error: {message: "Todo already exists"}})  //return shu yergcha sindiradi
@@ -40,7 +50,7 @@ export const addTodo = asyncHandler(
             
         }
     
-        await TodoModel.create({title, desc}) //agar value bir xil bolsa bittasini yozsa boladi, Misol: desc: desc => desc
+        await TodoModel.create({title, desc, image: link}) //agar value bir xil bolsa bittasini yozsa boladi, Misol: desc: desc => desc
     
         res.json({success: true})
         
@@ -66,7 +76,11 @@ export const deleteTodo = asyncHandler(
     async (req, res)=>{
         const {todoID} = req.params
     
-        await TodoModel.findByIdAndDelete(todoID)
+        const todo = await TodoModel.findById(todoID);
+        await todo.deleteOne()
+        // await TodoModel.findByIdAndDelete(todoID)
+        const key = todo.image.split("s3.timeweb.cloud/"[1])
+        await deleteFileFromS3(key)
         res.json({success:'true'})
     }
 )

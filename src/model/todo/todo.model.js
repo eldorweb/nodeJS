@@ -3,6 +3,7 @@ import { model, Schema } from "mongoose";
 const todoScheme = new Schema({
     title: {type: String},
     desc: {type: String},
+    image: {type: String}
 },
 {timestamps: true, versionKey: false} //update vaqitini automotic yozib beradi
 )
