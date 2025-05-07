@@ -37,8 +37,8 @@ export const addTodo = asyncHandler(
         const {title, desc} = req.body 
         const image = req.file
         const key = v4() + path.extname(image.originalname)  //oxiridagi formatini qirqib oladi
-
-    const link =  await uploadFileS3(key, image.buffer)
+        
+    const link =  await uploadFileS3(key, image.buffer) //image linkini qirqib olib saqlaymiz
         
         // console.log(req.file);   //rasm jonatilganda malumotlar consolega chiqadi.
         
@@ -47,7 +47,7 @@ export const addTodo = asyncHandler(
         if(todo) {
             //return res.json({success: false, error: {message: "Todo already exists"}})  //return shu yergcha sindiradi
             throw new HttpException(422, "Todo alredy exists"); //throw - return bilan bir xil vazifani bajaradi  Error - default class element
-            
+            //(status code va error messsageni soraydi)
         }
     
         await TodoModel.create({title, desc, image: link}) //agar value bir xil bolsa bittasini yozsa boladi, Misol: desc: desc => desc
@@ -76,10 +76,10 @@ export const deleteTodo = asyncHandler(
     async (req, res)=>{
         const {todoID} = req.params
     
-        const todo = await TodoModel.findById(todoID);
+        const todo = await TodoModel.findById(todoID);  //keyda ishlatish uchun todo alohida ajratib yoziladi
         await todo.deleteOne()
         // await TodoModel.findByIdAndDelete(todoID)
-        const key = todo.image.split("s3.timeweb.cloud/"[1])
+        const key = todo.image.split("s3.timeweb.cloud/"[1])   //faqatgina keyni qirqib olish uchun butub boshli linkni emas
         await deleteFileFromS3(key)
         res.json({success:'true'})
     }

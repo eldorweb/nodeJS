@@ -10,10 +10,10 @@ const app = express();
 //databasega ulanish uchun
 void connectDB();  //return qilmaydiganga void ishlatiladi
 
-app.listen(8080, () => {
-    console.log('Server run');
+// app.listen(8080, () => {
+//     console.log('Server run');
     
-})
+// })
 
 // istalgancha app yozilsa boladi
 
@@ -29,7 +29,7 @@ app.get('/', (req, res)=>{
 }) 
 
 app.use('/', router)
-app.use(errorMiddleware)   //agar problem bolsa chiqaradi
+app.use(errorMiddleware)   //agar problem bolsa chiqaradi. doimo routerdan keyin yozish kerak
 
 
 

@@ -9,7 +9,7 @@ const { verify} = pkg;
 export const auth = asyncHandler(async(req,res,next) => {
     let token = undefined;
     if(req.headers?.authorization){
-        token = req.headers.authorization.split(' ')[1]
+        token = req.headers.authorization.split(' ')[1]  //beare token bolganiligi uchun array qiliub turib 2 indexdagi tokenni alohida oladi
     }
     if(!token){ 
         throw new HttpException(401, "Unauthorized!")   //400 - bad request   401-  unauthorized
@@ -18,7 +18,7 @@ export const auth = asyncHandler(async(req,res,next) => {
     if(!decoded) {
         throw new HttpException(401, "Unauthorized")
     }
-    const user = await userModel.findById(decoded.id)
+    const user = await userModel.findById(decoded.id)  //decoded.id - user id
 
     req.body.user = user;
 

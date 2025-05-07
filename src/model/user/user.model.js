@@ -5,7 +5,7 @@ const userSchema = new Schema(
         full_name: {type: String, required: true},
         email: {type: String, unique: true, required: true}, //unique - faqat bir marta saqlanisg uchun
         phone: {type: String, required: true, unique: true},
-        password: {type:String, required: true, select: false},  //select - find methodlarda parol jonatilmaydi
+        password: {type:String, required: true, select: false},  //select - find methodlarda parol jonatilmaydi, userga parolni jonatmaydi. postmanda korsatmaydi
         status:{type:String, enum:["active", "inactive"], default: "active"}, //enum = faqat active/inactive qiymat qabul qiladi va default active hisoblanadi
     },
     {
@@ -14,4 +14,4 @@ const userSchema = new Schema(
     }
 );
 
-export const userModel = model("user", userSchema, "user")
+export const userModel = model("user", userSchema, "user")// (mongodbda user nomi bilan yaratiladi,refrence berish uchun)

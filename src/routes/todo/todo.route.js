@@ -22,7 +22,7 @@ export const todoRouter = Router();
 todoRouter.get('/get',getAllV(),validation, getAllTodo)  //getAllTodo ni export qilamiz
 todoRouter.get('/get/:todoID',getByIdV(),validation, getById)   // / dan keyin istalgan id ga boshlangan amal qilsa boladi
 // todoRouter.post('/add',auth,addTodoV(),validation, addTodo)//middlewarega validation larni chawiramiz        validation va addTodoV() lar doimo birga bolishi kerak
-todoRouter.post('/add',uploadMiddleware.single("image"), addTodo)   //single - faqat bitta fayl yuklashda    array- kop fayllar yuklashda   //single("___") - postman fom_data da nima yozilgan bolsa yoziladi
+todoRouter.post('/add',uploadMiddleware.single("image"), addTodo)   //single - faqat bitta fayl yuklashda    array- kop fayllar yuklashda   //single("___") - postman form_data da nima yozilgan bolsa yoziladi  file jonatish uchun form datadan foydalanamiz
 todoRouter.put('/update/:todoID',auth, updateTodo)   //put butun boshli malumotlarni yangilaydi
 //todoRouter.patch('/update', AddTodo)   //patch qisqa malumotlarni yangilaydi, kop ishlatilmaydi
 todoRouter.delete('/delete/:todoID',auth, deleteTodo) //auth tokenlar, va authentifikatsiya qilish, faqat login qlganlar uchun

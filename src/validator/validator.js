@@ -4,7 +4,7 @@ export const validation = (req, res, next) => {
     const errors = validationResult(req);   //req body, params va boshqa malumotlarda erorlarni aniqlaydi
 
     if(errors.isEmpty()){
-        return next()
+        return next() //errorlar yoqbolsa keyingi stepga otadi
     }
 
     let msg = ""

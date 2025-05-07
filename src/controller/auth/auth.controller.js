@@ -1,14 +1,14 @@
 import {asyncHandler} from '../../middleware/asyncHandler.middleware.js'
 import { userModel } from '../../model/user/user.model.js';
 import { HttpException } from '../../util(class)/http.exception.js';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'   //paswordni hashlash uchun
 import pkg from 'jsonwebtoken';
 const {sign, verify} = pkg;
 import {JWT_SECRET} from '../../utils/secrets.js'
 
 export const signUp = asyncHandler(async(req, res) => {
     const {full_name, email, phone, password} = req.body;
-    
+                                            //email yoki phone bir xil bolsa error chiqadi
     const exitUser = await userModel.findOne({$or:[{email}, {phone}]})  //$or $nor $and doim array bilan yoziladi   findOne - faqat bittasini topadi    find- Obyect qaytaradi, hammasini topadi
     if(exitUser){
         throw new HttpException(409, "User phone or email already exits!")  //409 - conflic status error code
@@ -16,7 +16,7 @@ export const signUp = asyncHandler(async(req, res) => {
 
     const salt = await bcrypt.genSalt(10)         //Salt - kuchlilik darajasi(1 dan 10 gacha berish recommended)(10 - perfect number)
     const hash_password = await bcrypt.hash(password, salt)   //heychlanadi
-
+                                                        //password: newPassword tepadagi qymatni ifodalashda
     await userModel.create({full_name, email, phone, password: hash_password})          //password: newPassword      hashlangan parolni olib kelamiz 
     
     res.status(201).json({success: true})      //200 - ok   201-created

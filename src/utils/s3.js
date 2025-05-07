@@ -14,7 +14,7 @@ const newClient = new S3Client({
 
 export const uploadFileS3 = async(key, buffer) =>{   //buffer - fienni codelangani   key- faylga nom berish
     try {
-        const upload = new Upload({
+        const upload = new Upload({  //optionlarni berib yuboramiz
             client: newClient,   //clientni shaxsini tasdiqlaydi
             params:{
                 Bucket: AWS_BUCKET_NAME,
@@ -37,7 +37,7 @@ export const uploadFileS3 = async(key, buffer) =>{   //buffer - fienni codelanga
 
 export const deleteFileFromS3 = async (key) =>{
     try {
-        const comand = new DeleteObjectCommand({
+        const command = new DeleteObjectCommand({  //aws dan chaqiramiz
             Bucket: AWS_BUCKET_NAME,
             Key: key,
         })
